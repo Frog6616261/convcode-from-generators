@@ -9,9 +9,9 @@ class Trellis {
     uint    _n = 0;
     uint    _k = 0;
     uint    _in_cond = 0; // 1 << _k
-    uint    _m_max = 0; //max count of cells
-    uint    _numb_cond = 0; //31 > m_max * k  
-    uint*   _arr_m = nullptr; //number of cells in a given stream
+    uint    _m_max = 0; // max count of cells
+    uint    _numb_cond = 0; // 31 > m_max * k  
+    uint*   _arr_m = nullptr; // number of cells in a given stream
     uint**  _arr_end = nullptr;
     uint**  _arr_out = nullptr;
 
@@ -26,7 +26,7 @@ class Trellis {
 
     uint findMaxM(const std::vector<std::vector<uint>>& G_pol8);
     uint findNumbOfConditions(const std::vector<std::vector<uint>>& G_pol8);
-    void fillTrellis();
+    void fillTrellis(const std::vector<std::vector<uint>>& G_pol8);
     std::vector<bool> convertPol8ToVect(uint pol8);
 
 public: 

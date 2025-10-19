@@ -1,6 +1,8 @@
 #include "../include/trellis.hpp"
 #include <cstddef>
 #include <algorithm>
+#include <iterator>
+#include <memory>
 #include <exception>
 #include <stdexcept>
 
@@ -101,16 +103,42 @@ uint Trellis::findNumbOfConditions(const std::vector<std::vector<uint>>& G_pol8)
 
         cells_numb += cur_max_cel_numb;
     }
-
-
-      
-
+     
     return cells_numb;
-
 }
 
-void Trellis::fillTrellis(){
+void Trellis::fillTrellis(const std::vector<std::vector<uint>>& G_pol8){
 
+    // obtain an array of cell length // _rewrite for _arr_m
+    std::unique_ptr<uint[]> sizes = std::make_unique<uint[]>(_k);
+    std::vector<uint>::const_iterator iter_max;
+
+    for (size_t k_num = 0; k_num < _k; ++k_num){
+        iter_max = std::max_element(G_pol8[k_num].begin(), G_pol8[k_num].end()); 
+        sizes[k_num] = (convertPol8ToVect(*(iter_max))).size();
+    }
+
+
+    // obtain an power matrix D_i
+    std::unique_ptr<std::unique_ptr<uint[]>[]> matrix_D = std::make_unique<std::unique_ptr<uint[]>[]>(_m_max);
+    size_t num_powers; 
+
+    for (size_t row = 0; row < _k; ++row){
+        for (size_t col = 0; col < _n; ++col){
+            std::vector<bool> G_bits_vec = convertPol8ToVect(G_pol8[row][col]);
+            num_powers = G_bits_vec.size();
+
+            for (uint pow = 0; pow < num_powers; ++pow){
+                matrix_D[pow][row] += (G_bits_vec[pow] << pow);
+            }
+        }
+    }
+
+    
+    // parameter iteration for array filling
+    for(size_t cur_cond = 0; cur_cond < _numb_cond; ++cur_cond){
+        
+    }
 }
 
 std::vector<bool> Trellis::convertPol8ToVect(uint pol8){
@@ -151,7 +179,7 @@ Trellis::Trellis(const std::vector<std::vector<uint>>& G_pol8) try
         , _arr_out  (new uint*[_numb_cond]{new uint[_in_cond]}) {
     
       
-    fillTrellis();
+    fillTrellis(G_pol8);
 } catch (...) {
 
 }
