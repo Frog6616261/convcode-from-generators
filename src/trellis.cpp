@@ -107,17 +107,19 @@ uint Trellis::findNumbOfConditions(const std::vector<std::vector<uint>>& G_pol8)
     return cells_numb;
 }
 
-void Trellis::fillTrellis(const std::vector<std::vector<uint>>& G_pol8){
+void Trellis::findAllFlowSizes(const std::vector<std::vector<uint>>& G_pol8){
 
     // obtain an array of cell length // _rewrite for _arr_m
-    std::unique_ptr<uint[]> sizes = std::make_unique<uint[]>(_k);
     std::vector<uint>::const_iterator iter_max;
 
     for (size_t k_num = 0; k_num < _k; ++k_num){
         iter_max = std::max_element(G_pol8[k_num].begin(), G_pol8[k_num].end()); 
-        sizes[k_num] = (convertPol8ToVect(*(iter_max))).size();
+        uint flow_sz = (convertPol8ToVect(*(iter_max))).size();
+        _arr_m[k_num] = flow_sz == 0 ? 0 : flow_sz - 1;
     }
+}
 
+void Trellis::fillTrellis(const std::vector<std::vector<uint>>& G_pol8){
 
     // obtain an power matrix D_i
     std::unique_ptr<std::unique_ptr<uint[]>[]> matrix_D = std::make_unique<std::unique_ptr<uint[]>[]>(_m_max);
@@ -177,9 +179,10 @@ Trellis::Trellis(const std::vector<std::vector<uint>>& G_pol8) try
         , _arr_m    (new uint[_k])//new uint[_numb_cond]{0}
         , _arr_end  (new uint*[_numb_cond]{new uint[_in_cond]}) // _k <= 31 new uint*[_numb_cond]{new uint[uint(1<<_k)]{0}}
         , _arr_out  (new uint*[_numb_cond]{new uint[_in_cond]}) {
-    
       
+    findAllFlowSizes(G_pol8);
     fillTrellis(G_pol8);
+
 } catch (...) {
 
 }

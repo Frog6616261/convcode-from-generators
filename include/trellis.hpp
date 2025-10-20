@@ -26,6 +26,7 @@ class Trellis {
 
     uint findMaxM(const std::vector<std::vector<uint>>& G_pol8);
     uint findNumbOfConditions(const std::vector<std::vector<uint>>& G_pol8);
+    void findAllFlowSizes(const std::vector<std::vector<uint>>& G_pol8);
     void fillTrellis(const std::vector<std::vector<uint>>& G_pol8);
     std::vector<bool> convertPol8ToVect(uint pol8);
 
