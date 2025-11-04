@@ -89,22 +89,25 @@ uint  Trellis::findMaxM(const std::vector<std::vector<uint>>& G_pol8){
 }
 
 uint Trellis::findNumbOfConditions(const std::vector<std::vector<uint>>& G_pol8){
+    /**
+     * @brief Counts the total number of states of the turbo encoder, **excluding the input bits**, which are counted separately.
+     * @param G_pol8 pol matrix
+     * @return count of conditions
+     */    
     uint cells_numb = 0;
 
+    std::vector<uint>::const_iterator iter_max;
+
     for (size_t row = 0; row < _k; ++row){
-        size_t col_numb = G_pol8[row].size();
-        uint cur_max_cel_numb = 0;
+        if (G_pol8[row].empty()) continue;
 
-        for (size_t col = 0; col < col_numb; ++col){
-            uint cur_cel_numb = static_cast<uint>(convertPol8ToVect(G_pol8[row][col]).size());
-
-            if (cur_cel_numb != 0 && cur_cel_numb > cur_max_cel_numb) cur_max_cel_numb = cur_cel_numb; 
-        }
-
-        cells_numb += cur_max_cel_numb;
+        iter_max = std::max_element(G_pol8[row].begin(), G_pol8[row].end());
+        if (*iter_max != 0 && *iter_max > 1) cells_numb += (convertPol8ToVect(*iter_max).size() - 1);        
     }
+
+    if (cells_numb == 0) return 0;
      
-    return cells_numb;
+    return (1 << cells_numb);
 }
 
 void Trellis::findAllFlowSizes(const std::vector<std::vector<uint>>& G_pol8){
