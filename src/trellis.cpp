@@ -73,19 +73,18 @@ bool Trellis::checkIsMatrixValidity(const std::vector<std::vector<T>>& G_pol8){
 }
 
 uint  Trellis::findMaxM(const std::vector<std::vector<uint>>& G_pol8){
-    uint maxM = 0;
+    uint max = 0;
+    uint cur;
 
     for (size_t row = 0; row < _k; ++row){
-        size_t col_numb = G_pol8[row].size();
+        if (G_pol8[row].empty()) continue;
 
-        for (size_t col = 0; col < col_numb; ++col){
-            uint cur_cel_numb = static_cast<uint>(convertPol8ToVect(G_pol8[row][col]).size());
-
-            if (cur_cel_numb != 0 && cur_cel_numb > maxM) maxM = cur_cel_numb; 
-        }
+        cur = *std::max_element(G_pol8[row].begin(), G_pol8[row].end());
+        
+        if (cur > max) max = cur; 
     }
-
-    return maxM;
+ 
+    return (max == 1 || max == 0) ? 0 : (convertPol8ToVect(max).size() - 1);
 }
 
 uint Trellis::findNumbOfConditions(const std::vector<std::vector<uint>>& G_pol8){
