@@ -110,14 +110,15 @@ uint Trellis::findNumbOfConditions(const std::vector<std::vector<uint>>& G_pol8)
 }
 
 void Trellis::findAllFlowSizes(const std::vector<std::vector<uint>>& G_pol8){
-
-    // obtain an array of cell length // _rewrite for _arr_m
     std::vector<uint>::const_iterator iter_max;
+    uint flow_sz;
 
     for (size_t k_num = 0; k_num < _k; ++k_num){
+        if (G_pol8[k_num].empty()) continue;
+
         iter_max = std::max_element(G_pol8[k_num].begin(), G_pol8[k_num].end()); 
-        uint flow_sz = (convertPol8ToVect(*(iter_max))).size();
-        _arr_m[k_num] = flow_sz == 0 ? 0 : flow_sz - 1;
+        flow_sz = (convertPol8ToVect(*(iter_max))).size();
+        _arr_m[k_num] = (flow_sz == 0  || flow_sz == 1) ? 0 : flow_sz - 1;
     }
 }
 
