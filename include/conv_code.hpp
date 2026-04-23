@@ -4,7 +4,7 @@
 #include "trellis.hpp"
 
 
-class ViterbiConvCode {
+class ConvCode {
 public:
     //enum classes
     //Enum classes
@@ -17,11 +17,11 @@ private:
     std::vector<std::vector<uint>> _G_pol8;
 
     //Constructors
-    ViterbiConvCode() = delete;
-    void swap(ViterbiConvCode&);
+    ConvCode() = delete;
+    void swap(ConvCode&);
 
     //Destructors
-    ~ViterbiConvCode() = default;
+    ~ConvCode() = default;
 
 
     //algo funcs
@@ -36,9 +36,9 @@ public:
     Algorithm _deco_algo = Algorithm(0);
 
     //Constructors
-    explicit ViterbiConvCode(const std::vector<std::vector<uint>>& G_pol8, Algorithm decoded_algorithm);
-    explicit ViterbiConvCode(const ViterbiConvCode&);
-    ViterbiConvCode& operator=(ViterbiConvCode);
+    explicit ConvCode(const std::vector<std::vector<uint>>& G_pol8, Algorithm decoded_algorithm);
+    explicit ConvCode(const ConvCode&);
+    ConvCode& operator=(ConvCode);
     
 
     //methods
