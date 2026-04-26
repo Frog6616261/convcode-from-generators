@@ -1,24 +1,23 @@
-#include "../include/viterbi_conv.hpp"
+#include "../include/conv_code.hpp"
 
-#define vcc ViterbiConvCode
 
 //Ctor
-vcc::vcc(const std::vector<std::vector<uint>>& G_pol8, Algorithm decode_algorithm):
+ConvCode::ConvCode(const std::vector<std::vector<uint>>& G_pol8, Algorithm decode_algorithm):
           _n((G_pol8.at(0)).size())
         , _k(G_pol8.size())
         , _G_pol8(G_pol8)
         , _deco_algo(decode_algorithm) {}
 
-vcc::vcc(const vcc& other)
-        : vcc::vcc(other._G_pol8, other._deco_algo) {}
+ConvCode::ConvCode(const ConvCode& other)
+        : ConvCode::ConvCode(other._G_pol8, other._deco_algo) {}
 
-vcc& vcc::operator=(vcc other){
-    vcc::swap(other);
+ConvCode& ConvCode::operator=(ConvCode other){
+    ConvCode::swap(other);
 
     return *this;
 }
 
-void vcc::swap(vcc& other){
+void ConvCode::swap(ConvCode& other){
     std::swap(_n, other._n);
     std::swap(_k, other._k);
     std::swap(_G_pol8, other._G_pol8);
@@ -30,45 +29,45 @@ void vcc::swap(vcc& other){
 
 
 //private methods
-void vcc::createTrellis(){
+void ConvCode::createTrellis(){
 
 }
 
-void vcc::doBLAST(){
+void ConvCode::doBLAST(){
 
 }
 
-void vcc::doFAST(){
+void ConvCode::doFAST(){
 
 }
 
-void vcc::doHARD(){
+void ConvCode::doHARD(){
 
 }
 
 //pub methods
-std::vector<bool> vcc::encode(const std::vector<bool>& in_bits){
+std::vector<bool> ConvCode::encode(const std::vector<bool>& in_bits){
 
 }
 
-std::vector<bool> vcc::decode(const std::vector<bool>& in_bits){
+std::vector<bool> ConvCode::decode(const std::vector<bool>& in_bits){
 
 }
 
-std::vector<bool> vcc::decode(const std::vector<double>& in_symb){
+std::vector<bool> ConvCode::decode(const std::vector<double>& in_symb){
 
 }
 
-void vcc::print_trellis(){
+void ConvCode::print_trellis(){
 
 }
 
-void vcc::print_all_trellis(){
+void ConvCode::print_all_trellis(){
 
 }
 
 //enum classes
-enum class vcc::Algorithm : int {
+enum class ConvCode::Algorithm : int {
     HARD = 0,
     SOFT = 1,
     QUANTIZE = 2

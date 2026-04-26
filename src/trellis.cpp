@@ -139,10 +139,29 @@ void Trellis::fillTrellis(const std::vector<std::vector<uint>>& G_pol8){
         }
     }
 
-    
-    // parameter iteration for array filling
-    for(size_t cur_cond = 0; cur_cond < _numb_cond; ++cur_cond){
+    // create array with ones for current cell cond
+    std::unique_ptr<uint[]> ones_symbls_m = std::make_unique<uint[]>(_k);
+    uint cur_ones_before = 0;
+    uint last_pos_ones = 0;
+
+    for (size_t num_m = 0; num_m < _k; ++num_m){
+        ones_symbls_m[num_m] = ((1 << (_arr_m[num_m] + 1 + last_pos_ones)) - 1 ) ^ cur_ones_before; // 1111 000 -> 0111 000
+        cur_ones_before += ones_symbls_m[num_m]; // 1000 0000 + 0111 0000
+        last_pos_ones += ones_symbls_m[num_m]; // 1 + 3
+    }
+
+    // parameter iteration for array filling 1 -> 1000 000 00000 00 ..., 2 -> 0100 000 00000 00 ..., 16 -> 0000 100 00000 00 ...
+    for (size_t cur_cond = 0; cur_cond < _numb_cond; ++cur_cond){
+        for (size_t cur_in_cond = 0; cur_in_cond < _in_cond; ++cur_in_cond){
+            // set current state
+            
         
+            // find output
+            _arr_out[cur_cond][cur_in_cond] = 1; //need algoirithm kerningana
+
+            // find next state
+            _arr_end[cur_cond][cur_in_cond] = 1; // use <<
+        }
     }
 }
 
